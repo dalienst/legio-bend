@@ -12,7 +12,7 @@ from accounts.serializers import UserSerializer, UserLoginSerializer
 User = get_user_model()
 
 
-class TokenView(APIView):
+class SignInView(APIView):
     permission_classes = (AllowAny,)
     serializer_class = UserLoginSerializer
 
@@ -31,11 +31,12 @@ class TokenView(APIView):
                     user_details = {
                         "id": user.id,
                         "email": user.email,
+                        "first_name": user.first_name,
+                        "last_name": user.last_name,
                         "is_superuser": user.is_superuser,
-                        "is_active": user.is_active,
-                        "is_staff": user.is_staff,
                         "reference": user.reference,
                         "slug": user.slug,
+                        "last_login": user.last_login,
                         "token": token.key,
                     }
                     return Response(user_details, status=status.HTTP_200_OK)
@@ -45,6 +46,8 @@ class TokenView(APIView):
                         status=status.HTTP_400_BAD_REQUEST,
                     )
             else:
+                import pdb
+                pdb.set_trace()
                 return Response(
                     {"detail": ("Unable to log in with provided credentials.")},
                     status=status.HTTP_400_BAD_REQUEST,
@@ -75,8 +78,6 @@ class UserCreateView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):

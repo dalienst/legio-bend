@@ -47,9 +47,15 @@ class UserSerializer(serializers.ModelSerializer):
             "updated_at",
         )
 
-    def create_user(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        user.save()
+    def create(self, validated_data):
+        # Use your custom manager's create_user method, which properly encrypts the password
+        user = User.objects.create_user(
+            email=validated_data["email"],
+            password=validated_data["password"],
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", ""),
+            avatar=validated_data.get("avatar", None),
+        )
         return user
 
 
