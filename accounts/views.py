@@ -46,8 +46,6 @@ class SignInView(APIView):
                         status=status.HTTP_400_BAD_REQUEST,
                     )
             else:
-                import pdb
-                pdb.set_trace()
                 return Response(
                     {"detail": ("Unable to log in with provided credentials.")},
                     status=status.HTTP_400_BAD_REQUEST,
