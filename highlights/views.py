@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 from highlights.serializers import HighlightSerializer
 from highlights.models import Highlight
@@ -11,6 +12,8 @@ class HighlightListCreateView(generics.ListCreateAPIView):
     permission_classes = [
         IsAuthenticated,
     ]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["chapter_id", "bible_id", "text", "verse_number"]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
