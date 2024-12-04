@@ -19,7 +19,7 @@ class Highlight(UniversalIdModel, ReferenceSlugModel, TimeStampedModel):
     class Meta:
         verbose_name = "Highlight"
         verbose_name_plural = "Highlights"
-        ordering = ["verse_number"]
+        ordering = ["-created_at"]
 
     def __str__(self):
         return f"{self.bible_version} {self.chapter}:{self.verse_number} - {self.text[:50]}..."
