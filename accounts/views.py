@@ -34,6 +34,7 @@ class SignInView(APIView):
                         "first_name": user.first_name,
                         "last_name": user.last_name,
                         "is_superuser": user.is_superuser,
+                        "is_staff": user.is_staff,
                         "reference": user.reference,
                         "slug": user.slug,
                         "last_login": user.last_login,

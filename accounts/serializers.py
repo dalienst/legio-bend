@@ -43,6 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
             "slug",
             "is_staff",
             "is_active",
+            "is_admin",
             "created_at",
             "updated_at",
         )

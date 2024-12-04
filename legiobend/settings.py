@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     # Apps
     "accounts",
     "highlights",
+    "dailyverse",
 ]
 
 MIDDLEWARE = [
