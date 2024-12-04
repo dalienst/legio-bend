@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
+from datetime import date
 
 from accounts.abstracts import UniversalIdModel, ReferenceSlugModel, TimeStampedModel
 from cloudinary.models import CloudinaryField
@@ -58,6 +59,8 @@ class User(
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    last_streak_date = models.DateField(null=True, blank=True)
+    current_streak_count = models.PositiveIntegerField(default=0)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password"]
@@ -66,3 +69,25 @@ class User(
 
     def __str__(self):
         return self.email
+
+    def update_streak(self):
+        
+
+        today = date.today()
+        if not self.last_streak_date:
+            # If no date exists, set today's date and increment the streak count
+            self.last_streak_date = today
+            self.current_streak_count = 1
+        elif self.last_streak_date == today:
+            # Already recorded for today, do nothing
+            return
+        elif (today - self.last_streak_date).days == 1:
+            # The last streak was yesterday, increment the streak count
+            self.current_streak_count += 1
+            self.last_streak_date = today
+        else:
+            # The streak was broken; reset the streak count
+            self.current_streak_count = 1
+            self.last_streak_date = today
+
+        self.save()

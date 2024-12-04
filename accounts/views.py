@@ -75,7 +75,9 @@ class UserCreateView(APIView):
             data=request.data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        user = serializer.save()
+
+        user.update_streak()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -86,3 +88,14 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id)
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.update_streak()
+
+        return super().get(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.update_streak()
+        return super().patch(request, *args, **kwargs)
