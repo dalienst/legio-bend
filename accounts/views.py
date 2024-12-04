@@ -28,6 +28,7 @@ class SignInView(APIView):
             if user:
                 if user.is_active:
                     token, created = Token.objects.get_or_create(user=user)
+                    user.update_streak()
                     user_details = {
                         "id": user.id,
                         "email": user.email,
@@ -37,7 +38,8 @@ class SignInView(APIView):
                         "is_staff": user.is_staff,
                         "reference": user.reference,
                         "slug": user.slug,
-                        "last_login": user.last_login,
+                        "current_streak_count": user.current_streak_count,
+                        "last_streak_date": user.last_streak_date,
                         "token": token.key,
                     }
                     return Response(user_details, status=status.HTTP_200_OK)
