@@ -6,7 +6,6 @@ from dailyverse.views import (
     VerseOfTheDayView,
 )
 
-app_name = "dailyverse"
 
 urlpatterns = [
     path("", DailyVerseListCreateView.as_view(), name="dailyverse-list"),

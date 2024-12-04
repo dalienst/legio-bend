@@ -33,6 +33,10 @@ class DailyVerseRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
     lookup_field = "slug"
 
 
-class VerseOfTheDayView(generics.ListAPIView):
-    queryset = DailyVerse.objects.filter(active_date=now().date()).first()
-    serializer_class = DailyVerseSerializer
+class VerseOfTheDayView(APIView):
+    def get(self, request, *args, **kwargs):
+        today = now().date()
+        verse = DailyVerse.objects.filter(active_date=today).first()
+        if verse:
+            return Response(DailyVerseSerializer(verse).data, status=200)
+        return Response({"message": "No verse of the day available."}, status=404)
