@@ -56,6 +56,7 @@ class User(
     last_name = models.CharField(max_length=255, blank=True, null=True)
     avatar = CloudinaryField("profiles", blank=True, null=True)
     is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = "email"
