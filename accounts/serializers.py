@@ -44,6 +44,8 @@ class UserSerializer(serializers.ModelSerializer):
             "is_staff",
             "is_active",
             "is_admin",
+            "current_streak_count",
+            "last_streak_date",
             "created_at",
             "updated_at",
         )

@@ -28,6 +28,7 @@ class SignInView(APIView):
             if user:
                 if user.is_active:
                     token, created = Token.objects.get_or_create(user=user)
+                    user.update_streak()
                     user_details = {
                         "id": user.id,
                         "email": user.email,
@@ -37,7 +38,8 @@ class SignInView(APIView):
                         "is_staff": user.is_staff,
                         "reference": user.reference,
                         "slug": user.slug,
-                        "last_login": user.last_login,
+                        "current_streak_count": user.current_streak_count,
+                        "last_streak_date": user.last_streak_date,
                         "token": token.key,
                     }
                     return Response(user_details, status=status.HTTP_200_OK)
@@ -75,7 +77,9 @@ class UserCreateView(APIView):
             data=request.data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        user = serializer.save()
+
+        user.update_streak()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -86,3 +90,14 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id)
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.update_streak()
+
+        return super().get(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.update_streak()
+        return super().patch(request, *args, **kwargs)
