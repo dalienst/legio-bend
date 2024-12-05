@@ -62,6 +62,14 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class StaffUserSerializer(UserSerializer):
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        user.is_staff = True
+        user.save()
+        return user
+
+
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(max_length=128, write_only=True)
