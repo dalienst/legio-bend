@@ -7,7 +7,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import GenericAPIView
 
-from accounts.serializers import UserSerializer, UserLoginSerializer
+from accounts.serializers import (
+    UserSerializer,
+    UserLoginSerializer,
+    StaffUserSerializer,
+)
 
 User = get_user_model()
 
@@ -71,6 +75,20 @@ class LogoutView(GenericAPIView):
 
 class UserCreateView(APIView):
     serializer_class = UserSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+
+        user.update_streak()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class StaffUserCreateView(APIView):
+    serializer_class = StaffUserSerializer
 
     def post(self, request):
         serializer = self.serializer_class(
