@@ -11,7 +11,11 @@ from accounts.serializers import (
     UserSerializer,
     UserLoginSerializer,
     StaffUserSerializer,
+    VerifyCodeSerializer,
+    PasswordResetSerializer,
+    RequestPasswordResetSerializer,
 )
+from accounts.utils import send_password_reset_email
 
 User = get_user_model()
 
@@ -40,6 +44,9 @@ class SignInView(APIView):
                         "last_name": user.last_name,
                         "is_superuser": user.is_superuser,
                         "is_staff": user.is_staff,
+                        "is_verified": user.is_verified,
+                        "is_active": user.is_active,
+                        "is_admin": user.is_admin,
                         "reference": user.reference,
                         "slug": user.slug,
                         "current_streak_count": user.current_streak_count,
@@ -119,3 +126,59 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         user = self.get_object()
         user.update_streak()
         return super().patch(request, *args, **kwargs)
+
+
+class VerifyEmailView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = VerifyCodeSerializer(data=request.data)
+
+        if serializer.is_valid():
+            user = serializer.validated_data.get("user")
+            verification = serializer.validated_data.get("verification")
+
+            # Verify the account
+            user.is_verified = True
+            user.save()
+
+            # Mark code as used
+            verification.used = True
+            verification.save()
+
+            return Response(
+                {"message": "Account verified successfully!"}, status=status.HTTP_200_OK
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RequestPasswordResetView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = RequestPasswordResetSerializer(data=request.data)
+
+        if serializer.is_valid():
+            verification = serializer.save()
+
+            send_password_reset_email(verification.user, verification.code)
+
+            return Response(
+                {"message": "Password reset email sent successfully!"},
+                status=status.HTTP_200_OK,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordResetView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = PasswordResetSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(
+                {"message": "Password reset successful!"},
+                status=status.HTTP_200_OK,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
