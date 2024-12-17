@@ -34,6 +34,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("is_verified", True)
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")
@@ -41,6 +42,8 @@ class UserManager(BaseUserManager):
             raise ValueError("Superuser must have is_superuser=True.")
         if extra_fields.get("is_active") is not True:
             raise ValueError("Superuser must have is_active=True.")
+        if extra_fields.get("is_verified") is not True:
+            raise ValueError("Superuser must have is_verified=True.")
 
         return self._create_user(email, password, **extra_fields)
 
@@ -59,6 +62,7 @@ class User(
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    is_verified = models.BooleanField(default=False)
     last_streak_date = models.DateField(null=True, blank=True)
     current_streak_count = models.PositiveIntegerField(default=0)
 
@@ -71,7 +75,6 @@ class User(
         return self.email
 
     def update_streak(self):
-        
 
         today = date.today()
         if not self.last_streak_date:
