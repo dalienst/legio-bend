@@ -91,3 +91,5 @@ class User(
             self.last_streak_date = today
 
         self.save()
+
+
