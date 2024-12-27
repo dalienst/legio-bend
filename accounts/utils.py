@@ -103,3 +103,33 @@ def send_account_deletion_request_email(email, deletion_request):
     except Exception as e:
         logger.error(f"Failed to send account deletion email: {e}")
         raise
+
+
+def send_admin_email_on_account_deletion(email, deletion_request):
+    """
+    A function to alert the admin that a user has requested account deletion
+    """
+    try:
+        current_year = datetime.now().year
+        email_body = render_to_string(
+            "admin_account_deletion_request.html",
+            {
+                "email": email,
+                "deletion_request": deletion_request,
+                "reference": deletion_request.reference,
+                "current_year": current_year,
+            },
+        )
+
+        send_mail(
+            subject="Account Deletion Request",
+            message="",
+            from_email=EMAIL_USER,
+            recipient_list=[EMAIL_USER],
+            fail_silently=False,
+            html_message=email_body,
+        )
+    except Exception as e:
+        logger.error(f"Failed to send account deletion email: {e}")
+        raise
+    

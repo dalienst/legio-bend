@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 600px;
+                margin: 20px auto;
+                background: #ffffff;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .header {
+                background-color: #4b1719;
+                color: white;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .content {
+                padding: 20px;
+                color: #333;
+            }
+
+            .details {
+                background-color: #f9f9f9;
+                border: 1px solid #e6e6e6;
+                border-radius: 5px;
+                padding: 15px;
+                margin: 20px 0;
+            }
+
+            .footer {
+                text-align: center;
+                background-color: #f4f4f4;
+                color: #777;
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .highlight {
+                font-weight: bold;
+                color: #4b1719;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Account Deletion Request Notification</h1>
+            </div>
+            <div class="content">
+                <p>Hello Admin,</p>
+                <p>A user has requested the deletion of their account. Below are the details:</p>
+                <div class="details">
+                    <p><strong>User Email:</strong> <span class="highlight">{{ email }}</span></p>
+                    <p><strong>Reference:</strong> <span class="highlight">{{ reference }}</span></p>
+                    <p><strong>Reason:</strong> {{ deletion_request.reason }}</p>
+                    <p><strong>Requested On:</strong> {{ deletion_request.created_at }}</p>
+                </div>
+                <p>Please take any necessary action to ensure this request is handled appropriately.</p>
+                <p>Best regards,<br>Your Application</p>
+            </div>
+            <div class="footer">
+                <p>&copy; {{ current_year }} Your Company. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+
+</html>
