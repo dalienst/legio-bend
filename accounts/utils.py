@@ -5,6 +5,9 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from datetime import datetime
 from legiobend.settings import EMAIL_USER
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def generate_slug():
@@ -71,3 +74,32 @@ def send_password_reset_email(user, verification_code):
         fail_silently=False,
         html_message=email_body,
     )
+
+
+def send_account_deletion_request_email(email, deletion_request):
+    """
+    A function to alert the user that a deletion request has been made
+    """
+    try:
+        current_year = datetime.now().year
+        email_body = render_to_string(
+            "account_deletion_request.html",
+            {
+                "email": email,
+                "deletion_request": deletion_request,
+                "reference": deletion_request.reference,
+                "current_year": current_year,
+            },
+        )
+
+        send_mail(
+            subject="Account Deletion Request",
+            message="",
+            from_email=EMAIL_USER,
+            recipient_list=[email],
+            fail_silently=False,
+            html_message=email_body,
+        )
+    except Exception as e:
+        logger.error(f"Failed to send account deletion email: {e}")
+        raise

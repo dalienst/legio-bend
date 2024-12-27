@@ -14,8 +14,10 @@ from accounts.serializers import (
     VerifyCodeSerializer,
     PasswordResetSerializer,
     RequestPasswordResetSerializer,
+    DeletionRequestSerializer,
 )
 from accounts.utils import send_password_reset_email
+from accounts.models import DeletionRequest
 
 User = get_user_model()
 
@@ -184,6 +186,12 @@ class PasswordResetView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class AccountDeletionRequestCreateView(generics.CreateAPIView):
+    serializer_class = DeletionRequestSerializer
+    queryset = DeletionRequest.objects.all()
+    permission_classes = (AllowAny,)
+
+
 # Admin Views
 class UserListView(generics.ListAPIView):
     serializer_class = UserSerializer
@@ -206,3 +214,26 @@ class UserRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return User.objects.filter(slug=self.kwargs.get("slug"))
+
+
+class DeletionRequestListView(generics.ListAPIView):
+    serializer_class = DeletionRequestSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsAdminUser,
+    ]
+
+    def get_queryset(self):
+        return DeletionRequest.objects.all()
+
+
+class DeletionRequestRetrieveView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = DeletionRequestSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsAdminUser,
+    ]
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        return DeletionRequest.objects.filter(slug=self.kwargs.get("slug"))

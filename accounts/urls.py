@@ -11,6 +11,9 @@ from accounts.views import (
     PasswordResetView,
     UserListView,
     UserRetrieveView,
+    AccountDeletionRequestCreateView,
+    DeletionRequestListView,
+    DeletionRequestRetrieveView,
 )
 
 urlpatterns = (
@@ -24,4 +27,19 @@ urlpatterns = (
     path("password/new/", PasswordResetView.as_view(), name="password-reset"),
     path("", UserListView.as_view(), name="user-list"),
     path("users/<str:slug>/", UserRetrieveView.as_view(), name="user-detail"),
+    path(
+        "delete/account/",
+        AccountDeletionRequestCreateView.as_view(),
+        name="account-delete",
+    ),
+    path(
+        "delete-account/requests/",
+        DeletionRequestListView.as_view(),
+        name="delete-requests",
+    ),
+    path(
+        "delete-account/requests/<str:slug>/",
+        DeletionRequestRetrieveView.as_view(),
+        name="delete-request-detail",
+    ),
 )

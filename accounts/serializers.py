@@ -9,8 +9,9 @@ from accounts.validators import (
     validate_password_symbol,
 )
 from verification.models import VerificationCode
-from accounts.utils import send_verification_email
+from accounts.utils import send_verification_email, send_account_deletion_request_email
 from highlights.serializers import HighlightSerializer
+from accounts.models import DeletionRequest
 
 User = get_user_model()
 
@@ -195,3 +196,19 @@ class PasswordResetSerializer(serializers.Serializer):
         verification.save()
 
         return user
+
+
+class DeletionRequestSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
+    reason = serializers.CharField(required=True)
+
+    class Meta:
+        model = DeletionRequest
+        fields = (
+            "email",
+            "reason",
+            "created_at",
+            "updated_at",
+            "reference",
+            "slug",
+        )
