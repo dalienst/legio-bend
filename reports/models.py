@@ -11,6 +11,7 @@ class Report(UniversalIdModel, TimeStampedModel, ReferenceSlugModel):
     report_type = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     description = models.TextField()
+    is_solved = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Report"

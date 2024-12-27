@@ -9,7 +9,9 @@ from accounts.validators import (
     validate_password_symbol,
 )
 from verification.models import VerificationCode
-from accounts.utils import send_verification_email
+from accounts.utils import send_verification_email, send_account_deletion_request_email
+from highlights.serializers import HighlightSerializer
+from accounts.models import DeletionRequest
 
 User = get_user_model()
 
@@ -31,6 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
         ],
     )
     avatar = serializers.ImageField(use_url=True, required=False)
+    highlights = HighlightSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -50,6 +53,7 @@ class UserSerializer(serializers.ModelSerializer):
             "is_admin",
             "current_streak_count",
             "last_streak_date",
+            "highlights",
             "created_at",
             "updated_at",
         )
@@ -192,3 +196,24 @@ class PasswordResetSerializer(serializers.Serializer):
         verification.save()
 
         return user
+
+
+class DeletionRequestSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
+    reason = serializers.CharField(required=True)
+
+    class Meta:
+        model = DeletionRequest
+        fields = (
+            "email",
+            "reason",
+            "created_at",
+            "updated_at",
+            "reference",
+            "slug",
+        )
+
+    def validate_email(self, email):
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError("Account with this email does not exist!")
+        return email

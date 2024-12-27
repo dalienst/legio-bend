@@ -94,3 +94,16 @@ class User(
             self.last_streak_date = today
 
         self.save()
+
+
+class DeletionRequest(UniversalIdModel, TimeStampedModel, ReferenceSlugModel):
+    email = models.EmailField()
+    reason = models.TextField()
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = "Deletion Request"
+        verbose_name_plural = "Deletion Requests"
+        ordering = ["-created_at"]
