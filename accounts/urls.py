@@ -9,6 +9,8 @@ from accounts.views import (
     VerifyEmailView,
     RequestPasswordResetView,
     PasswordResetView,
+    UserListView,
+    UserRetrieveView,
 )
 
 urlpatterns = (
@@ -20,4 +22,6 @@ urlpatterns = (
     path("<str:id>/", UserDetailView.as_view(), name="user_detail"),
     path("password/reset/", RequestPasswordResetView.as_view(), name="password-reset"),
     path("password/new/", PasswordResetView.as_view(), name="password-reset"),
+    path("", UserListView.as_view(), name="user-list"),
+    path("users/<str:slug>/", UserRetrieveView.as_view(), name="user-detail"),
 )
