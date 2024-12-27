@@ -33,12 +33,12 @@ urlpatterns = (
         name="account-delete",
     ),
     path(
-        "delete-account/requests/",
+        "delete/requests/",
         DeletionRequestListView.as_view(),
         name="delete-requests",
     ),
     path(
-        "delete-account/requests/<str:slug>/",
+        "delete/requests/<str:slug>/",
         DeletionRequestRetrieveView.as_view(),
         name="delete-request-detail",
     ),
