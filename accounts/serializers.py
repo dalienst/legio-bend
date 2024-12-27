@@ -212,3 +212,8 @@ class DeletionRequestSerializer(serializers.ModelSerializer):
             "reference",
             "slug",
         )
+
+    def validate_email(self, email):
+        if not User.objects.filter(email=email).exists():
+            raise serializers.ValidationError("Account with this email does not exist!")
+        return email
