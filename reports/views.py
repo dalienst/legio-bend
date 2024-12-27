@@ -1,5 +1,5 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 
 from reports.models import Report
@@ -15,7 +15,10 @@ class ReportCreateView(generics.CreateAPIView):
 class ReportListView(generics.ListAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [
+        IsAuthenticated,
+        IsAdminUser,
+    ]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
         "report_type",
@@ -25,7 +28,10 @@ class ReportListView(generics.ListAPIView):
 class ReportRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [
+        IsAuthenticated,
+        IsAdminUser,
+    ]
     lookup_field = "slug"
 
     def get_queryset(self):
