@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "dailyverse",
     "verification",
     "reports",
+    "category",
 ]
 
 MIDDLEWARE = [

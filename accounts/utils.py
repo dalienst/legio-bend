@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 def generate_slug():
     characters = string.ascii_letters + string.digits
     random_string = "".join(secrets.choice(characters) for _ in range(16))
-    return random_string
+    return random_string.upper()
 
 
 def generate_reference():
@@ -132,4 +132,3 @@ def send_admin_email_on_account_deletion(email, deletion_request):
     except Exception as e:
         logger.error(f"Failed to send account deletion email: {e}")
         raise
-    
