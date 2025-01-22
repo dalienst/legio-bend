@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "verification",
     "reports",
     "category",
+    "subcategory",
 ]
 
 MIDDLEWARE = [
