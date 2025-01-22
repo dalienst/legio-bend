@@ -24,4 +24,5 @@ urlpatterns = [
     path("api/highlights/", include("highlights.urls")),
     path("api/dailyverse/", include("dailyverse.urls")),
     path("api/reports/", include("reports.urls")),
+    path("api/category/", include("category.urls")),
 ]

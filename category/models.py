@@ -26,7 +26,7 @@ class Category(TimeStampedModel, UniversalIdModel, ReferenceSlugModel):
     class Meta:
         verbose_name = "Category"
         verbose_name_plural = "Categories"
-        ordering = ["position"]
+        ordering = ["position", "-created_at"]
 
     def __str__(self):
         return self.name
