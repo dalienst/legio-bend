@@ -10,12 +10,13 @@ class Subcategory(UniversalIdModel, TimeStampedModel, ReferenceSlugModel):
     - Morning Prayers
     """
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="subcategories"
     )
     description = models.TextField(blank=True, null=True)
     position = models.PositiveIntegerField(default=0)
+    tod = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         verbose_name = "Subcategory"

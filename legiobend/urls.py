@@ -25,4 +25,5 @@ urlpatterns = [
     path("api/dailyverse/", include("dailyverse.urls")),
     path("api/reports/", include("reports.urls")),
     path("api/category/", include("category.urls")),
+    path("api/subcategory/", include("subcategory.urls")),
 ]

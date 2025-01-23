@@ -12,7 +12,7 @@ class Category(TimeStampedModel, UniversalIdModel, ReferenceSlugModel):
     - Daily Prayers
     """
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)
     position = models.PositiveIntegerField(default=0, help_text="Position in the list")
     author = models.ForeignKey(
@@ -21,6 +21,12 @@ class Category(TimeStampedModel, UniversalIdModel, ReferenceSlugModel):
         blank=True,
         null=True,
         related_name="categories",
+    )
+    period = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Period of the category: daily, weekly, monthly, yearly",
     )
 
     class Meta:
