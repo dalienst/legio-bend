@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "reports",
     "category",
     "subcategory",
+    "prayers",
 ]
 
 MIDDLEWARE = [
