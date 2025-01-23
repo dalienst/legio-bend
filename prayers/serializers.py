@@ -18,6 +18,7 @@ class PrayerSerializer(serializers.ModelSerializer):
             "content",
             "purpose",
             "is_public",
+            "position",
             "created_at",
             "updated_at",
             "slug",

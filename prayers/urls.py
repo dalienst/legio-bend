@@ -14,7 +14,7 @@ urlpatterns = [
         PrayerRetrieveUpdateDestroyView.as_view(),
         name="prayer-retrieve-update-destroy",
     ),
-    path("list/prayer/", PrayerListView.as_view(), name="prayer-list"),
+    path("prayer/list/", PrayerListView.as_view(), name="prayer-list"),
     path(
         "detail/<str:reference>/", PrayerRetrieveView.as_view(), name="prayer-retrieve"
     ),
