@@ -3,6 +3,7 @@ from rest_framework.validators import UniqueValidator
 
 from subcategory.models import Subcategory
 from category.models import Category
+from prayers.serializers import PrayerSerializer
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
@@ -14,6 +15,7 @@ class SubcategorySerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=Subcategory.objects.all())],
         max_length=255,
     )
+    prayers = PrayerSerializer(many=True, read_only=True)
 
     class Meta:
         model = Subcategory
@@ -24,6 +26,7 @@ class SubcategorySerializer(serializers.ModelSerializer):
             "description",
             "position",
             "tod",
+            "prayers",
             "created_at",
             "updated_at",
             "slug",

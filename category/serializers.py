@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from category.models import Category
+from subcategory.serializers import SubcategorySerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -15,6 +16,7 @@ class CategorySerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=Category.objects.all())],
         max_length=255,
     )
+    subcategories = SubcategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Category
@@ -25,6 +27,7 @@ class CategorySerializer(serializers.ModelSerializer):
             "position",
             "author",
             "period",
+            "subcategories",
             "created_at",
             "updated_at",
             "slug",
