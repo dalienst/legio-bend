@@ -17,7 +17,7 @@ class Prayer(TimeStampedModel, UniversalIdModel, ReferenceSlugModel):
     class Meta:
         verbose_name = "Prayer"
         verbose_name_plural = "Prayers"
-        ordering = ["-created_at"]
+        ordering = ["position", "-created_at"]
 
     def __str__(self):
         return self.title
