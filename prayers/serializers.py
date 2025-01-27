@@ -20,6 +20,7 @@ class PrayerSerializer(serializers.ModelSerializer):
             "purpose",
             "is_public",
             "position",
+            "subcategory_detail",
             "created_at",
             "updated_at",
             "slug",
