@@ -8,6 +8,7 @@ class PrayerSerializer(serializers.ModelSerializer):
     subcategory = serializers.SlugRelatedField(
         queryset=Subcategory.objects.all(), slug_field="reference"
     )
+    subcategory_detail = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Prayer
@@ -24,3 +25,6 @@ class PrayerSerializer(serializers.ModelSerializer):
             "slug",
             "reference",
         )
+
+    def get_subcategory_detail(self, obj):
+        return obj.subcategory.name
