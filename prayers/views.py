@@ -40,6 +40,9 @@ class PrayerListView(generics.ListAPIView):
         AllowAny,
     ]
 
+    def get_queryset(self):
+        return Prayer.objects.filter(is_public=True)
+
 
 class PrayerRetrieveView(generics.RetrieveAPIView):
     queryset = Prayer.objects.filter(is_public=True)
