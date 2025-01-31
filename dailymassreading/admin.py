@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from dailymassreading.models import DailyMassReading
+
+admin.site.register(DailyMassReading)
