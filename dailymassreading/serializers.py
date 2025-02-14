@@ -9,6 +9,7 @@ class DailyMassReadingSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "title",
+            "mass_date",
             "lectionary",
             "reading_one",
             "reading_one_text",
