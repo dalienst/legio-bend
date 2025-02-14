@@ -1,5 +1,8 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from django.utils.timezone import now
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from dailymassreading.models import DailyMassReading
 from dailymassreading.serializers import DailyMassReadingSerializer
@@ -32,6 +35,15 @@ class DailyMassReadingListView(generics.ListAPIView):
     permission_classes = [
         AllowAny,
     ]
+
+
+class MassOfTheDayView(APIView):
+    def get(self, request, *args, **kwargs):
+        today = now().date()
+        mass = DailyMassReading.objects.filter(mass_date=today).first()
+        if mass:
+            return Response(DailyMassReadingSerializer(mass).data, status=200)
+        return Response({"message": "No mass of the day available."}, status=404)
 
 
 class DailyMassReadingRetrieveView(generics.RetrieveAPIView):

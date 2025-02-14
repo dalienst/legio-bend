@@ -5,6 +5,7 @@ from dailymassreading.views import (
     DailyMassReadingRetrieveUpdateDestroyView,
     DailyMassReadingListView,
     DailyMassReadingRetrieveView,
+    MassOfTheDayView,
 )
 
 urlpatterns = [
@@ -14,7 +15,10 @@ urlpatterns = [
         DailyMassReadingRetrieveUpdateDestroyView.as_view(),
         name="dailymassreading-detail",
     ),
-    path("list/", DailyMassReadingListView.as_view(), name="dailymassreading-list-view"),
+    path(
+        "list/", DailyMassReadingListView.as_view(), name="dailymassreading-list-view"
+    ),
+    path("mass/list/", MassOfTheDayView.as_view(), name="mass-of-the-day"),
     path(
         "detail/<str:reference>/",
         DailyMassReadingRetrieveView.as_view(),

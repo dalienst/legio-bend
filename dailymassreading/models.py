@@ -5,6 +5,7 @@ from accounts.abstracts import TimeStampedModel, UniversalIdModel, ReferenceSlug
 
 class DailyMassReading(TimeStampedModel, UniversalIdModel, ReferenceSlugModel):
     title = models.CharField(max_length=2555)
+    mass_date = models.DateField()
     lectionary = models.CharField(max_length=255)
     reading_one = models.CharField(max_length=255)
     reading_one_text = models.TextField()
@@ -20,7 +21,7 @@ class DailyMassReading(TimeStampedModel, UniversalIdModel, ReferenceSlugModel):
     class Meta:
         verbose_name = "Daily Mass Reading"
         verbose_name_plural = "Daily Mass Readings"
-        ordering = ["-created_at"]
+        ordering = ["-mass_date", "-created_at"]
 
     def __str__(self):
         return self.title
