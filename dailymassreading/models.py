@@ -5,6 +5,7 @@ from accounts.abstracts import TimeStampedModel, UniversalIdModel, ReferenceSlug
 
 class DailyMassReading(TimeStampedModel, UniversalIdModel, ReferenceSlugModel):
     title = models.CharField(max_length=2555)
+    date = models.DateField()
     lectionary = models.CharField(max_length=255)
     reading_one = models.CharField(max_length=255)
     reading_one_text = models.TextField()
