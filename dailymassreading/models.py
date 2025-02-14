@@ -21,7 +21,7 @@ class DailyMassReading(TimeStampedModel, UniversalIdModel, ReferenceSlugModel):
     class Meta:
         verbose_name = "Daily Mass Reading"
         verbose_name_plural = "Daily Mass Readings"
-        ordering = ["-mass_date"]
+        ordering = ["-mass_date", "-created_at"]
 
     def __str__(self):
         return self.title
