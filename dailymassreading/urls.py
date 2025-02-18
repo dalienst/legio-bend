@@ -16,7 +16,9 @@ urlpatterns = [
         name="dailymassreading-detail",
     ),
     path(
-        "list/", DailyMassReadingListView.as_view(), name="dailymassreading-list-view"
+        "list/masses/",
+        DailyMassReadingListView.as_view(),
+        name="dailymassreading-list-view",
     ),
     path("mass/list/", MassOfTheDayView.as_view(), name="mass-of-the-day"),
     path(
