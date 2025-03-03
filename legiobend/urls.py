@@ -28,4 +28,5 @@ urlpatterns = [
     path("api/subcategory/", include("subcategory.urls")),
     path("api/prayers/", include("prayers.urls")),
     path("api/dailymassreading/", include("dailymassreading.urls")),
+    path("api/earlyaccess/", include("earlyaccess.urls")),
 ]
