@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from django.utils.timezone import now
