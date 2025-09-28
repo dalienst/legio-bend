@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "prayers",
     "dailymassreading",
     "earlyaccess",
+    "teachings",
 ]
 
 MIDDLEWARE = [
